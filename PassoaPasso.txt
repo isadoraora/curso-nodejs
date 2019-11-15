@@ -1,0 +1,95 @@
+Logar no mySQL
+No prompt digitar :
+mysql -h localhost -u root -p <enter>
+insira sua senha, criada quando instalamos o mysql
+
+SEMPRE QUE ESTIVER NO MYSQL E FOR RODAR COMANDO TEM QUE TERMINAR COM ;
+
+Para mostrar quais bancos existem:
+SHOW DATABASES;
+
+CREATE DATABASE nomequeescolher;
+
+para acessar o banco:
+USEnomedobancoescolhido; --> database changed(significa que entramos no banco específico)
+
+mostrar tabelas:
+SHOW TABLES;
+
+criar tabelas:
+CREATE TABLES;
+SHOW TABLES;
+
+Para ver a estrutura da tabela:
+DESCRIBE nomedatabela;
+
+Inserindo dados em uma tabela:
+INSERT INTO nomedatablea(variaveis) VALUES()
+
+trazer tudo de uma tabela:
+SELECT * FROM nomedatabela;
+
+trazendo uma informação com filtro estabelecido por mim
+SELECT * FROM nomedatabela WHERE variavel = parâmetro;
+EX: select * from usuarios where idade = 8;
+
+deletar um campo de uma tabela:
+smepre usar delete com WHERE
+DELETE FROM nomedatabela WHERE VARIAVEL --PARAMETRO;
+
+deletar toda a tabela:
+DELETE FROM nomedatabela;
+
+para atualizar algo na tabela -- update sempre com WHERE
+UPDATE nomedatabela SET campo  = "nova informação";
+
+alterando o nome da pessoa abaixo:
+update usuarios set nome = "Noelia Gima" where nome = "Noe Gima";
+
+SEQUELIZE:
+nos permite trabalhar com bando de dados no NodeJS
+
+Módulos que são necessários instalar, no prompt de comando da pasta:
+npm install --save sequelize
+npm install --save mysql2
+
+COmo se conectar a um BD usando Sequelize!!!
+const Sequelize = require('sequelize')
+const sequelize = new Sequelize('teste', 'root', 'isaisa', {
+    //o host serve pra dizer em qual máquina está nosso BD
+    host: "localhost",
+    dialect: "mysql"
+})
+
+//verifica se conseguimos nos conectar ao BD. Sozinha ela não faz nada.
+//then funciona como função de callback.
+sequelize.authenticate().then(function () {
+    console.log("Conectou com sucesso!")
+}).catch(function (erro) {
+    console.log("Falha ao se conectar! " + erro)
+
+NO VSCODE FAZEMOS COMO ABAIXO PARA CRIARMOS TABELA:
+const Postagem = sequelize.define('postagens', {
+    titulo: {
+        //string tem limite de tamanho e texto não
+        type: Sequelize.STRING
+    },
+    conteudo: {
+        type: Sequelize.TEXT
+    }
+})
+
+//essa função vai sincronizar o seu model com o mysql
+Postagem.sync({ force: true })
+//o force = true é certeza que a tabela será gerada
+})
+AÍ RODAMOS NO BASH E ENTÃO CONSULTAMOS NO PROMPT DO BD.
+
+PARA INSERIRMOS DADOS EM UMA TABELA:
+Postagem.create({
+    titulo: "O apanhador no campo de centeio",
+    conteudo: "uma linda estória"
+})
+
+
+O BODY-PARSER nos deixa pegar dados de um formulário, pelo express.
